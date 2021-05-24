@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>計算結果確認</title>
+</head>
+<body>
+     <p>計算の基準となる日付を入力してください</p>
+
+          <button>計算実行</button>
+
+     <a th:href="@{/date/register}" >
+          <button>新規登録</button>
+     </a>
+     <table th:if="${dates.size()}" border=1>
+          <thead>
+               <tr>
+                    <th>No</th>
+                    <th>日付ID</th>
+                    <th>日付名</th>
+                    <th>年</th>
+                    <th>月</th>
+                    <th>日</th>
+               </tr>
+          </thead>
+     <tbody>
+               <tr th:each="dates:${dates}" th:object="${dates}">
+                    <td th:text="*{no}"></td>
+                    <td th:text="*{dateId}"></td>
+                    <td th:text="*{dateName}"></td>
+                    <td th:text="*{yearCalc}"></td>
+                    <td th:text="*{monthCalc}"></td>
+                    <td th:text="*{dayCalc}"></td>
+                    <td> <a th:href="@{date/change/no={no}(no=*{no})}"><button>変更</button></a></td>
+                    <td> <form th:method="post" th:action="@{/date/delete/no={no}(no=*{no})}"><button>削除</button></form></td>
+               </tr>
+          </tbody>
+     </table>   
+</body>
+</html>
