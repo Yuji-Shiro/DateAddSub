@@ -31,7 +31,7 @@
                     <td th:text="*{yearCalc}"></td>
                     <td th:text="*{monthCalc}"></td>
                     <td th:text="*{dayCalc}"></td>
-                    <td> <a th:href="@{date/change/no={no}(no=*{no})}"><button>変更</button></a></td>
+                    <td> <a th:href="@{/date/change/no={no}(no=*{no})}"><button>変更</button></a></td>
                     <td> <form th:method="post" th:action="@{/date/delete/no={no}(no=*{no})}"><button>削除</button></form></td>
                </tr>
           </tbody>

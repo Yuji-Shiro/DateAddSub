@@ -6,11 +6,14 @@
 </head>
 <body>
 <p>日付ID</p>
-     <p>日付名</p>
-     <p>加減値（年）</p>
-     <p>加減値（月）</p>
-     <p>加減値（日）</p>
-     <button>更新</button>
-     <button>戻る</button>
+     <form th:method="post" th:object="${dates}" th:action="@{/date/change/no={no}(no=*{no})}">
+          <label>No:<input type="text" th:field="*{no}"></label>
+          <label>日付ID:<input type="text" th:field="*{dateId}"></label>
+          <label>日付名:<input type="text" th:field="*{dateName}"></label>
+          <label>加減値（年）:<input type="text" th:field="*{yearCalc}"></label>
+          <label>加減値（月）:<input type="text" th:field="*{monthCalc}"></label>
+          <label>加減値（日）:<input type="text" th:field="*{dayCalc}"></label>
+          <button>更新</button>
+     </form>
 </body>
 </html>

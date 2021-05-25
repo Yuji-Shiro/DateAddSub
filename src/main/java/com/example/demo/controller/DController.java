@@ -40,9 +40,16 @@ public class DController {
 		return "redirect:/date/top";
 	}
 /*変更画面*/
-	@GetMapping("date/change")
-	public String updateDateId() {
-		return "/change";
+	@GetMapping("date/change/no={no}")
+	public String updateDateId(@PathVariable ("no")int no, Model model) {
+		model.addAttribute("dates", service.getOne(no));
+		return "date/change";
+	}
+/*変更登録処理*/
+	@PostMapping("date/change/no={no}")
+	public String update(@ModelAttribute Date d, Model model) {
+		service.updateOne(d.getNo(), d.getDateId(), d.getDateName(), d.getYearCalc(), d.getMonthCalc(), d.getDayCalc());
+		return "redirect:/date/top";
 	}
 /*削除*/
 	@PostMapping("date/delete/no={no}")

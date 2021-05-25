@@ -6,16 +6,19 @@
   <resultMap type="com.example.demo.domain.Date" id="date">
   <id column="no" property="no"/>
   <result column="dateid" property="dateId"/>
-  <result column="datename" property="datename"/>
+  <result column="datename" property="dateName"/>
   <result column="yearcalc" property="yearCalc"/>
   <result column="monthcalc" property="monthCalc"/>
   <result column="daycalc" property="dayCalc"/>
   </resultMap>
   <!-- 全件取得 -->
   <select id="find" resultType="com.example.demo.domain.Date"> select * from dateapp </select>
+  <!-- 1件取得 -->
+  <select id="getOne" resultMap="date"> select * from dateapp where no =#{no} </select>
   <!-- 新規登録 -->
   <insert id="insertOne">insert into dateapp (no, dateid, datename, yearcalc, monthcalc, daycalc) values (#{no}, #{dateId}, #{dateName}, #{yearCalc}, #{monthCalc}, #{dayCalc})</insert>
+  <!-- 詳細変更 -->
+  <update id="updateOne">update dateapp set no = #{no}, dateid=#{dateId}, datename=#{dateName}, yearcalc=#{yearCalc}, monthcalc=#{monthCalc}, daycalc=#{dayCalc} where no = #{no}</update>
   <!-- 削除 -->
   <delete id="deleteOne">delete from dateapp where no = #{no}</delete>
   </mapper>
-  
