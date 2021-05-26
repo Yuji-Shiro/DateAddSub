@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.domain.Date;
 import com.example.demo.service.DService;
@@ -56,5 +60,19 @@ public class DController {
     public String delete(@PathVariable String no, @ModelAttribute Date d) {
         service.deleteOne(d);
         return "redirect:/date/top";
+	}
+/*入力値*/
+//	@PostMapping("date/calc")
+//	public String postDate(@RequestParam("text1")String str,RedirectAttributes redirectAttributes) {
+//		redirectAttributes.addFlashAttribute("datedata",str);
+//		return "date/top";
+//	}
+	@PostMapping("date/calc")
+	public String postDate(@RequestParam("text1")String str,Model model) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		String text = str;
+		LocalDate localDate = LocalDate.parse(text, formatter);
+		model.addAttribute("datedata",localDate);
+		return "date/calc";
 	}
 }
