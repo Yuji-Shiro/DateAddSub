@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,11 +23,35 @@ import com.example.demo.service.DService;
 public class DController {
 	@Autowired
 	private DService service;
-
-/*top画面表示*/
+/*top画面表示改善の余地あり*/
 	@GetMapping("date/top")
-	public String top(Model model, @ModelAttribute Date d) {
+	public String top(Model model) {
+		LinkedHashMap<Integer,LocalDate> dateCalc = new LinkedHashMap<>(); 
 		model.addAttribute("dates",service.getList());
+		model.addAttribute("dateCalc",dateCalc);
+		return "date/top";
+	}
+/*計算処理*/
+	@PostMapping("date/calc")
+    public String postDate(@RequestParam("text1")String str,Model model) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		String text = str;
+		LocalDate inputDate = LocalDate.parse(text, formatter);
+		List<Date> DList = service.getList();
+		LinkedHashMap<Integer,LocalDate> dateCalc = new LinkedHashMap<>(); 
+		for (int i = 0; i < DList.size(); i++) {
+			Date d = DList.get(i);
+			LocalDate ld = inputDate; /*ここで日付をリセット*/
+			ld = ld.plusYears(d.getYearCalc());
+			ld = ld.plusMonths(d.getMonthCalc());
+			ld = ld.plusDays(d.getDayCalc());
+			
+			dateCalc.put(i+1, ld);
+			model.addAttribute("dates",DList);
+			model.addAttribute("inputDate",inputDate);
+			model.addAttribute("dateCalc",dateCalc);
+			
+		}
 		return "date/top";
 	}
 /*新規登録*/
@@ -38,7 +64,7 @@ public class DController {
 	@PostMapping("date/register")
 	public String registerId(@Validated @ModelAttribute Date d, BindingResult result) {
 		if (result.hasErrors()) {
-			return "date/new";
+			return "date/register";
 		}
 		service.insertOne(d);
 		return "redirect:/date/top";
@@ -61,18 +87,5 @@ public class DController {
         service.deleteOne(d);
         return "redirect:/date/top";
 	}
-/*入力値*/
-//	@PostMapping("date/calc")
-//	public String postDate(@RequestParam("text1")String str,RedirectAttributes redirectAttributes) {
-//		redirectAttributes.addFlashAttribute("datedata",str);
-//		return "date/top";
-//	}
-	@PostMapping("date/calc")
-	public String postDate(@RequestParam("text1")String str,Model model) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-		String text = str;
-		LocalDate localDate = LocalDate.parse(text, formatter);
-		model.addAttribute("datedata",localDate);
-		return "date/calc";
-	}
+	
 }

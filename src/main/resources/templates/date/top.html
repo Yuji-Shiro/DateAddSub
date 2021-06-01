@@ -10,6 +10,7 @@
           <label>日付:<input type="text" name="text1"></label>
           <button>計算実行</button>
      </form>
+     <p th:text="${inputDate}"></p>
       
      <a th:href="@{/date/register}" >
           <button>新規登録</button>
@@ -24,21 +25,17 @@
                     <th>月</th>
                     <th>日</th>
                     <th>計算結果</th>
-                    <th>計算式（年月日）</th>
-                    <th></th>
                </tr>
           </thead>
      <tbody>
-               <tr th:each="dates:${dates}" th:object="${dates}">
-                    <td th:text="*{no}"></td>
-                    <td th:text="*{dateId}"></td>
-                    <td th:text="*{dateName}"></td>
-                    <td th:text="*{yearCalc}"></td>
-                    <td th:text="*{monthCalc}"></td>
-                    <td th:text="*{dayCalc}"></td>
-                    <td th:text="${null}"></td>
-                    <td th:text="${null}"></td> 
-                    
+               <tr th:each="dates,number:${dates}">
+                    <td th:text="${dates.no}"></td>
+                    <td th:text="${dates.dateId}"></td>
+                    <td th:text="${dates.dateName}"></td>
+                    <td th:text="${dates.yearCalc}"></td>
+                    <td th:text="${dates.monthCalc}"></td>
+                    <td th:text="${dates.dayCalc}"></td>
+                    <td th:text="${dateCalc.get(number.count)}"></td>
                     <td> <a th:href="@{/date/change/no={no}(no=*{no})}"><button>変更</button></a></td>
                     <td> <form th:method="post" th:action="@{/date/delete/no={no}(no=*{no})}"><button>削除</button></form></td>
                </tr>
